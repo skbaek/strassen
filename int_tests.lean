@@ -32,9 +32,9 @@ match (2^m) with
 | (n+2) := fib_mat_core (n+2) n 1 1
 end
 
-def size : nat := 7
+def size : nat := 6
 
-def test_mat := arith_prog_mat size
+def test_mat := matrix.map (λ x, (100000 : int) * x) (arith_prog_mat size)
 
 def test  := mul test_mat test_mat
 def test2 := strassen 2 test_mat test_mat
