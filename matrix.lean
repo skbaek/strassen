@@ -1,6 +1,6 @@
 import .vector 
 
-variables {k m n p : nat} {α : Type} [ring α]
+variables {k m n p : nat} {α β : Type} [ring α] [ring β]
 
 open tactic vector
 
@@ -47,6 +47,14 @@ def mul : ∀ {k m n : nat}, matrix α k m → matrix α m n → matrix α k n
 | k m (n+1) A B := 
   let (x,B') := split_col B in 
   cons_col (mul_vec A x) (mul A B')
+
+def singleton (a : α) : matrix α 1 1 :=
+vector.singleton (vector.singleton a)
+
+def map (f : α → β) : ∀ {m n}, matrix α m n → matrix β m n 
+| 0 n A     := nil 
+| (m+1) n A := (A.head.map f)::(map A.tail)
+
 
 def pad_length [has_repr α] : ∀ {m n}, matrix α m n → nat 
 | 0 n A := 0
